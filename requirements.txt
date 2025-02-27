@@ -1,9 +1,21 @@
 # Core dependencies
-streamlit
-numpy
-opencv-python
-opencv-python-headless
-fpdf
-pillow
-ultralytics==8.3.78
-torch
+streamlit==1.33.0
+numpy==1.26.0
+Pillow==10.1.0
+opencv-python-headless==4.5.5.64
+fpdf==1.7.2
+
+# Machine learning
+ultralytics==8.0.196
+torch==2.1.0
+torchvision==0.16.0
+
+# Additional utilities
+python-dateutil==2.8.2
+tqdm==4.66.1
+matplotlib==3.8.1
+pandas==2.1.1
+
+# Streamlit plugins
+streamlit-option-menu==0.3.6
+streamlit-lottie==0.0.5

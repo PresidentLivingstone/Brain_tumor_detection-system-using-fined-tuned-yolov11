@@ -20,66 +20,86 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better UI
+# Enhanced CSS for better UI
 st.markdown("""
 <style>
     .main-header {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
         font-weight: bold;
         color: #2c3e50;
         text-align: center;
-        margin-bottom: 1rem;
-        padding-bottom: 1rem;
-        border-bottom: 2px solid #3498db;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 3px solid #3498db;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     .sub-header {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: bold;
         color: #3498db;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
+        margin-top: 1.2rem;
+        margin-bottom: 0.8rem;
+        border-left: 4px solid #3498db;
+        padding-left: 10px;
     }
     .result-box {
-        padding: 1rem;
-        border-radius: 10px;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+        padding: 1.2rem;
+        border-radius: 12px;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+        transition: all 0.3s ease;
     }
     .detection-positive {
         background-color: rgba(255, 0, 0, 0.1);
         border: 1px solid #ff0000;
+        box-shadow: 0 4px 8px rgba(255, 0, 0, 0.1);
     }
     .detection-negative {
         background-color: rgba(0, 128, 0, 0.1);
         border: 1px solid #008000;
+        box-shadow: 0 4px 8px rgba(0, 128, 0, 0.1);
     }
     .stButton button {
         background-color: #3498db;
         color: white;
         font-weight: bold;
-        border-radius: 5px;
-        padding: 0.5rem 2rem;
+        border-radius: 8px;
+        padding: 0.6rem 2.2rem;
         transition: all 0.3s;
+        border: none;
     }
     .stButton button:hover {
         background-color: #2980b9;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+    .stButton button:active {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     }
     .input-section, .results-section {
         background-color: #f8f9fa;
-        padding: 1.5rem;
-        border-radius: 10px;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding: 1.8rem;
+        border-radius: 12px;
+        margin-bottom: 1.8rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+    .input-section:hover, .results-section:hover {
+        box-shadow: 0 6px 14px rgba(0,0,0,0.12);
     }
     .pdf-download {
-        margin-top: 1rem;
-        padding: 1rem;
+        margin-top: 1.5rem;
+        padding: 1.5rem;
         background-color: #e8f4f8;
-        border-radius: 10px;
-        border: 1px dashed #3498db;
+        border-radius: 12px;
+        border: 2px dashed #3498db;
         text-align: center;
+        transition: all 0.3s ease;
+    }
+    .pdf-download:hover {
+        background-color: #d1eaf3;
+        transform: translateY(-2px);
     }
     .footer {
         position: fixed;
@@ -91,12 +111,73 @@ st.markdown("""
         text-align: center;
         padding: 15px;
         font-size: 14px;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 -3px 12px rgba(0,0,0,0.15);
+    }
+    .stFileUploader {
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px dashed #3498db;
+        background-color: #f0f8ff;
+    }
+    .instruction-box {
+        background-color: #f1f7fd;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 2.2rem;
+        border-left: 5px solid #3498db;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .info-text {
+        line-height: 1.6;
+        color: #2c3e50;
+    }
+    /* Custom progress bar styling */
+    .stProgress > div > div {
+        background-color: #3498db !important;
+        transition: all 0.3s ease;
+    }
+    /* Custom styling for file uploader elements */
+    [data-testid="stFileUploadDropzone"] {
+        border: 2px dashed #3498db !important;
+        padding: 10px !important;
+    }
+    /* Custom styling for the text input fields */
+    .stTextInput input, .stNumberInput input, .stSelectbox select {
+        border-radius: 8px !important;
+        border: 1px solid #bdc3c7 !important;
+        padding: 10px !important;
+        transition: all 0.3s ease !important;
+    }
+    .stTextInput input:focus, .stNumberInput input:focus, .stSelectbox select:focus {
+        border: 1px solid #3498db !important;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2) !important;
+    }
+    /* Animation for results */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .fadeIn {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    .tumor-detected {
+        color: #e74c3c;
+        font-weight: bold;
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    .no-tumor {
+        color: #27ae60;
+        font-weight: bold;
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+        animation: fadeIn 0.5s ease-in-out;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Function to show a custom loading spinner with a progress bar
+# Function to show a custom loading spinner with a smooth progress bar
 def custom_spinner():
     with st.spinner("Processing your MRI scan..."):
         progress_bar = st.progress(0)
@@ -104,13 +185,14 @@ def custom_spinner():
             time.sleep(0.02)
             progress_bar.progress(i + 1)
         st.success("Processing complete!")
+        time.sleep(0.5)  # Brief pause for visual feedback
         progress_bar.empty()
 
 # Function to show a brief result animation/feedback
 def show_result_animation(result_type):
     # This function displays "Analyzing results..." in the right column.
-    st.info("Analyzing results...")
-    time.sleep(1)
+    with st.spinner("Analyzing results..."):
+        time.sleep(1)
 
 # Function to process the image and run detection using the YOLO model
 def predict_and_display_v11(image, model_path, confidence_threshold=0.5, target_size=(640, 640)):
@@ -135,7 +217,7 @@ def predict_and_display_v11(image, model_path, confidence_threshold=0.5, target_
             t_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)[0]
             cv2.rectangle(img_resized, (xmin, ymin - t_size[1] - 10), (xmin + t_size[0], ymin), (0, 255, 0), -1)
             cv2.putText(img_resized, label, (xmin, ymin - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
-    # The prediction function itself doesn't show the result animation since we'll call that later.
+    
     img_rgb = cv2.cvtColor(img_resized, cv2.COLOR_BGR2RGB)
     return Image.fromarray(img_rgb), detections
 
@@ -223,16 +305,22 @@ def generate_and_download_pdf(patient_id, patient_name, email, gender, age, dete
     return pdf_data
 
 def main():
+    # Initialize session state variables if they don't exist
+    if 'detect_pressed' not in st.session_state:
+        st.session_state['detect_pressed'] = False
+    if 'detections' not in st.session_state:
+        st.session_state['detections'] = None
+    
     st.markdown('<div class="main-header">🧠 Brain Tumor Detection System</div>', unsafe_allow_html=True)
     st.markdown('''
-        <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="text-align: center; margin-bottom: 2.5rem; font-size: 1.2rem; color: #34495e; max-width: 800px; margin-left: auto; margin-right: auto;">
             This application uses advanced AI technology to detect brain tumors from MRI scans.
             Upload your MRI image and get instant analysis with high accuracy.
         </div>
     ''', unsafe_allow_html=True)
     
     # Create two columns for layout
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns([1, 1], gap="large")
     
     # Left column: Patient information, image upload, and Detect Tumor button
     with col1:
@@ -251,22 +339,33 @@ def main():
         st.markdown('<div class="sub-header">Upload MRI Scan</div>', unsafe_allow_html=True)
         with st.container():
             st.markdown('<div class="input-section">', unsafe_allow_html=True)
+            
             uploaded_file = st.file_uploader("Upload MRI Scan", type=["jpg", "png", "jpeg"])
             temp_img_path = None
             image = None
+            
             if uploaded_file is not None:
                 with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp_img:
                     tmp_img.write(uploaded_file.read())
                     temp_img_path = tmp_img.name
                 image = Image.open(temp_img_path)
-                st.image(image, caption="Uploaded MRI Scan")
+                
+                # Display the uploaded image with a caption and soft shadow
+                st.markdown('<div style="padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; margin-top: 10px;">', unsafe_allow_html=True)
+                st.image(image, caption="Uploaded MRI Scan", use_column_width=True)
+                st.markdown('</div>', unsafe_allow_html=True)
+                
                 st.session_state['temp_img_path'] = temp_img_path
                 st.session_state['image'] = image
+            
             st.markdown("</div>", unsafe_allow_html=True)
             
-            # Detect Tumor button placed just below the uploaded image
+            # Detect Tumor button with more prominence
             if 'image' in st.session_state:
-                if st.button("Detect Tumor", key="detect_tumor"):
+                st.markdown('<div style="text-align: center; margin-top: 20px;">', unsafe_allow_html=True)
+                detect_btn = st.button("Detect Tumor", key="detect_tumor", use_container_width=True)
+                st.markdown('</div>', unsafe_allow_html=True)
+                if detect_btn:
                     st.session_state['detect_pressed'] = True  # Set flag to run detection in right column
     
     # Right column: Display detection results and PDF Report generation/download
@@ -292,22 +391,30 @@ def main():
             # Display detection results if available
             if st.session_state.get('detections') is not None:
                 if st.session_state['detections']:
-                    st.markdown("## 🚨 Tumor Detected")
+                    st.markdown('<div class="tumor-detected fadeIn">🚨 Tumor Detected</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="result-box detection-positive fadeIn">', unsafe_allow_html=True)
                     for i, det in enumerate(st.session_state['detections'], 1):
                         *xyxy, conf, cls = det
                         severity = "Potentially Malignant" if conf > 0.7 else "Potentially Benign"
                         st.markdown(f"**Tumor {i}:** Confidence - {conf:.2f} | {severity}")
+                    st.markdown('</div>', unsafe_allow_html=True)
                 else:
-                    st.markdown("## ✅ No Tumor Detected")
+                    st.markdown('<div class="no-tumor fadeIn">✅ No Tumor Detected</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="result-box detection-negative fadeIn">', unsafe_allow_html=True)
+                    st.markdown("The analysis found no evidence of tumors in the provided MRI scan.")
+                    st.markdown('</div>', unsafe_allow_html=True)
+                
                 if st.session_state.get('processed_img_path'):
-                    st.image(st.session_state['processed_img_path'], caption="Detection Results")
+                    st.markdown('<div style="padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; margin-top: 15px; margin-bottom: 15px;">', unsafe_allow_html=True)
+                    st.image(st.session_state['processed_img_path'], caption="Detection Results", use_column_width=True)
+                    st.markdown('</div>', unsafe_allow_html=True)
             else:
                 st.info("After uploading, click 'Detect Tumor' (in the left column) to analyze the scan.")
             
             # PDF Report Generation Section
             st.markdown('<div class="pdf-download">', unsafe_allow_html=True)
             st.markdown("### 📄 Generate Medical Report")
-            if st.button("Generate PDF Report", key="generate_pdf"):
+            if st.button("Generate PDF Report", key="generate_pdf", use_container_width=True):
                 with st.spinner("Generating comprehensive medical report..."):
                     progress_bar = st.progress(0)
                     for i in range(100):
@@ -320,6 +427,7 @@ def main():
                     )
                     st.session_state['pdf_data'] = pdf_data
                     st.success("✅ Report generated successfully!")
+            
             if "pdf_data" in st.session_state:
                 st.download_button(
                     label="📥 Download PDF Report",
@@ -327,23 +435,24 @@ def main():
                     file_name=f"Brain_Tumor_Report_{patient_id}.pdf",
                     mime="application/pdf",
                     key="download_pdf",
+                    use_container_width=True,
                 )
             st.markdown("</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
     
     st.markdown("""
-    <div style="background-color: #f1f1f1; padding: 20px; border-radius: 10px; margin-top: 2rem;">
-        <h3>About Brain Tumor Detection</h3>
-        <p>This application uses fine-tuned YOLOv11, a state-of-the-art object detection model trained specifically for identifying brain tumors in MRI scans. The model has been fine-tuned on thousands of medical images to ensure high accuracy.</p>
-        <h4>How to use:</h4>
-        <ol>
+    <div class="instruction-box">
+        <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-bottom: 15px;">About Brain Tumor Detection</h3>
+        <p class="info-text">This application uses fine-tuned YOLOv11, a state-of-the-art object detection model trained specifically for identifying brain tumors in MRI scans. The model has been fine-tuned on thousands of medical images to ensure high accuracy.</p>
+        <h4 style="color: #3498db; margin-top: 15px;">How to use:</h4>
+        <ol class="info-text">
             <li>Enter the patient's information in the form</li>
             <li>Upload a clear MRI scan (JPEG, PNG format)</li>
-            <li>Click "Detect Tumor" (located in the left column, just below the uploaded image) to analyze the scan</li>
+            <li>Click "Detect Tumor" to analyze the scan</li>
             <li>Click "Generate PDF Report" to create your medical report</li>
             <li>Download the PDF report using the button provided</li>
         </ol>
-        <p><strong>Note:</strong> This tool is designed to assist medical professionals and should not replace professional medical diagnosis.</p>
+        <p class="info-text"><strong>Note:</strong> This tool is designed to assist medical professionals and should not replace professional medical diagnosis.</p>
     </div>
     """, unsafe_allow_html=True)
     
