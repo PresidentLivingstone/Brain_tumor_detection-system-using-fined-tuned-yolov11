@@ -259,7 +259,7 @@ def main():
                     tmp_img.write(uploaded_file.read())
                     temp_img_path = tmp_img.name
                 image = Image.open(temp_img_path)
-                st.image(image, caption="Uploaded MRI Scan", use_column_width=True)
+                st.image(image, caption="Uploaded MRI Scan")
                 st.session_state['temp_img_path'] = temp_img_path
                 st.session_state['image'] = image
             st.markdown("</div>", unsafe_allow_html=True)
@@ -300,7 +300,7 @@ def main():
                 else:
                     st.markdown("## ✅ No Tumor Detected")
                 if st.session_state.get('processed_img_path'):
-                    st.image(st.session_state['processed_img_path'], caption="Detection Results", use_column_width=True)
+                    st.image(st.session_state['processed_img_path'], caption="Detection Results")
             else:
                 st.info("After uploading, click 'Detect Tumor' (in the left column) to analyze the scan.")
             
