@@ -352,7 +352,7 @@ def main():
                 
                 # Display the uploaded image with a caption and soft shadow
                 st.markdown('<div style="padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; margin-top: 10px;">', unsafe_allow_html=True)
-                st.image(image, caption="Uploaded MRI Scan", use_column_width=True)
+                st.image(image, caption="Uploaded MRI Scan", use_container_width=True)
                 st.markdown('</div>', unsafe_allow_html=True)
                 
                 st.session_state['temp_img_path'] = temp_img_path
@@ -406,7 +406,7 @@ def main():
                 
                 if st.session_state.get('processed_img_path'):
                     st.markdown('<div style="padding: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; margin-top: 15px; margin-bottom: 15px;">', unsafe_allow_html=True)
-                    st.image(st.session_state['processed_img_path'], caption="Detection Results", use_column_width=True)
+                    st.image(st.session_state['processed_img_path'], caption="Detection Results", use_container_width=True)
                     st.markdown('</div>', unsafe_allow_html=True)
             else:
                 st.info("After uploading, click 'Detect Tumor' (in the left column) to analyze the scan.")
