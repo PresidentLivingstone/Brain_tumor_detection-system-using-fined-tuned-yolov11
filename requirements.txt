@@ -1,11 +1,9 @@
 # Core dependencies
 streamlit
 numpy
-opencv-python-headless
 opencv-python
+opencv-python-headless
 fpdf
 pillow
-torch
 ultralytics==8.3.78
-
-
+torch
