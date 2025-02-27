@@ -1,14 +1,14 @@
 # Core dependencies
-streamlit==1.33.0
+streamlit
 numpy==1.26.0
 Pillow==10.1.0
-opencv-python-headless==4.5.5.64
+opencv-python-headless==4.8.0.76
 fpdf==1.7.2
 
 # Machine learning
 ultralytics==8.0.196
-torch==2.1.0
-torchvision==0.16.0
+torch
+torchvision
 
 # Additional utilities
 python-dateutil==2.8.2
