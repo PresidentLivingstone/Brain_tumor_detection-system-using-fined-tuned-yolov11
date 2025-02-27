@@ -2,6 +2,7 @@
 streamlit
 numpy
 opencv-python-headless
+opencv-python
 fpdf
 pillow
 torch
