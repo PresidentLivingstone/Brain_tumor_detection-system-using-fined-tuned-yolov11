@@ -1,0 +1,10 @@
+# Core dependencies
+streamlit
+numpy
+opencv-python-headless
+fpdf
+pillow
+torch
+ultralytics==8.3.78
+
+
